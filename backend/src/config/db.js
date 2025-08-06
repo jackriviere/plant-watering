@@ -1,10 +1,10 @@
 import { Pool } from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const pool = new Pool({
-  connectionString:
-    
+  connectionString: process.env.DB_CONN_STRING,
 });
 
-console.log(pool.query("SELECT NOW;"));
-
-await pool.end();
+export default pool;
