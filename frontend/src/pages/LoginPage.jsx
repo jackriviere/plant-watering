@@ -2,7 +2,7 @@ import React from "react";
 
 const LoginPage = () => {
   const handleSubmit = () => {
-    return
+    return console.log("Hello")
   }
 
   return (
@@ -11,11 +11,11 @@ const LoginPage = () => {
         <div className="max-w-2xl mx-auto">
           <div className="card bg-base-100">
             <div className="card-body">
-              <h2 className="card-title text-2xl mb-3">Login</h2>
+              <h2 className="card-title text-4xl mb-3 text-primary text-center">Login</h2>
               <form onSubmit={handleSubmit}>
-                <div className="form-control mb-4">
+                <div className="flex flex-col mb-4">
                   <label className="label">
-                    <span className="label-text">Username</span>
+                    <span className="mb-2 text-2xl font-bold">Username</span>
                   </label>
                   <input
                     type="text"
