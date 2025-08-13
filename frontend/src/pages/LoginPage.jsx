@@ -1,32 +1,27 @@
 import React from "react";
 
 const LoginPage = () => {
-  const handleSubmit = () => {
-    return console.log("Hello")
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    return console.log("Hello");
+  };
 
   return (
     <div className="min-h-screen bg-base-200">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="card bg-base-100">
-            <div className="card-body">
-              <h2 className="card-title text-4xl mb-3 text-primary text-center">Login</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="flex flex-col mb-4">
-                  <label className="label">
-                    <span className="mb-2 text-2xl font-bold">Username</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="input input-bordered"
-                    placeholder="Username"
-                  />
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+      <div className="container mx-auto px-4 py-32">
+        <form onSubmit={handleSubmit}>
+          <fieldset className="fieldset bg-base-100 border-base-300 rounded-box w-xl border p-4 pt-16 mx-auto ">
+            <legend className="fieldset-legend text-5xl text-primary">Login</legend>
+
+            {/* <label className="label ">Email</label> */}
+            <input type="text" className="input input-lg w-full mb-12" placeholder="Username" />
+
+            {/* <label className="label">Password</label> */}
+            <input type="password" className="input input-lg w-full mb-12" placeholder="Password" />
+
+            <button type="submit" className="btn btn-neutral btn-lg mt-8">Login</button>
+          </fieldset>
+        </form>
       </div>
     </div>
   );
