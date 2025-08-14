@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken"
 import pool from "../config/db.js";
 import { generateAccessToken, generateBothTokens } from "../lib/tokens.js";
 
@@ -57,7 +57,7 @@ export async function signUp(req, res) {
 
     const user = { name: username };
     const { accessToken, refreshToken } = generateBothTokens(user);
-    await pool.query("INSERT INTO refresh_tokens token VALUES ($1)", [
+    await pool.query("INSERT INTO refresh_tokens (token) VALUES ($1)", [
       refreshToken,
     ]);
 
@@ -96,4 +96,8 @@ export async function generateNewToken(req, res) {
     console.log("Error in generating new token:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+}
+
+export async function testAuthorization(req, res) {
+  return res.json({ message: `Authorized for user: ${req.user.name}`})
 }

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const DURATION = "15s";
+const DURATION = "1m";
 
 export function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
