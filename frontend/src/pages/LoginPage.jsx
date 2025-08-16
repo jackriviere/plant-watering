@@ -1,6 +1,9 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const LoginPage = () => {
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+
   const userRef = useRef();
 
   useEffect(() => {
@@ -21,19 +24,33 @@ const LoginPage = () => {
               Login
             </legend>
 
-            <label className="label text-xl">Username</label>
+            <label htmlFor="username" className="label text-xl">
+              Username
+            </label>
             <input
               ref={userRef}
               type="text"
+              id="username"
               className="input input-lg w-full mb-12"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              autoComplete="off"
+              required
             />
 
-            <label className="label text-xl">Password</label>
-            <input type="password" className="input input-lg w-full mb-12" />
+            <label htmlFor="password" className="label text-xl">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="input input-lg w-full mb-12"
+              value={pwd}
+              onChange={(e) => setPwd(e.target.value)}
+              required
+            />
 
-            <button className="btn btn-neutral btn-lg mt-8">
-              Login
-            </button>
+            <button className="btn btn-neutral btn-lg mt-8">Login</button>
           </fieldset>
         </form>
       </div>
