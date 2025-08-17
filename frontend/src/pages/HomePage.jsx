@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
 const HomePage = () => {
-  return <div className="min-h-screen">
-    <div className="container "></div>
-  </div>;
-};
+  return (
+    <div>HomePage</div>
+  )
+}
 
-export default HomePage;
+export default HomePage

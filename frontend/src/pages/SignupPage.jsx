@@ -1,12 +1,11 @@
 import { X } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
-import { Link } from "react-router";
-import api from "../api/axios.js"
+import { useEffect, useRef, useState } from "react";
 
-const LoginPage = () => {
+const SignupPage = () => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
+  const [matchPwd, setMatchPwd] = useState("");
 
   const userRef = useRef();
 
@@ -15,26 +14,20 @@ const LoginPage = () => {
   }, []);
 
   useEffect(() => {
-    setError("")
-  }, [user, pwd])
+    setError("");
+  }, [user, pwd, matchPwd]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post("/auth/login", { username: user, password: pwd})
-      console.log(response)
-    } catch (error) {
-
-    }
+    return console.log("Hello");
   };
-
   return (
     <div className="min-h-screen bg-base-200">
       <div className="container mx-auto px-4 py-32">
         <form onSubmit={handleSubmit}>
           <fieldset className="fieldset bg-base-100 border-base-300 rounded-box w-xl border p-4 pt-16 mx-auto ">
-            <legend className="fieldset-legend text-5xl text-primary">
-              Login
+            <legend className="fieldset-legend text-5xl text-secondary">
+              Sign Up
             </legend>
 
             <label htmlFor="username" className="label text-xl">
@@ -63,13 +56,20 @@ const LoginPage = () => {
               required
             />
 
-            <button className="btn btn-neutral btn-lg mt-8">Login</button>
-            <p className="text-lg pl-2 pt-4">
-              No account?{" "}
-              <Link to="/signup" className="text-accent hover:text-accent/80">
-                Sign up.
-              </Link>
-            </p>
+            <label htmlFor="confirmPassword" className="label text-xl">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              className="input input-lg w-full mb-12"
+              value={matchPwd}
+              onChange={(e) => setMatchPwd(e.target.value)}
+              required
+            />
+
+            <button className="btn btn-neutral btn-lg mt-8">Sign Up</button>
+
             <div className="relative" hidden={!error}>
               <X className="absolute top-0.5 w-10 h-10 text-red-600" />
               <p className="text-lg text-red-600 pl-12 pt-2">{error}</p>
@@ -81,4 +81,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
