@@ -5,13 +5,14 @@ import { generateAccessToken, generateBothTokens } from "../lib/tokens.js";
 
 export async function login(req, res) {
   const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ message: "Username and password are required"})
   try {
     const { rows } = await pool.query(
       "SELECT username, hashed_password FROM users WHERE username=$1",
       [username]
     );
     if (rows.length === 0) {
-      return res.status(404).json({ message: "user not found" });
+      return res.status(401).json({ message: "user not found" });
     }
     if (!(await bcrypt.compare(password, rows[0].hashed_password))) {
       return res.status(401).json({ message: "Incorrect password" });
@@ -24,10 +25,10 @@ export async function login(req, res) {
     await pool.query("INSERT INTO refresh_tokens (token) VALUES ($1)", [
       refreshToken,
     ]);
+    res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true})
     res.status(200).json({
       message: "Login successful",
       accessToken: accessToken,
-      refreshToken: refreshToken,
     });
   } catch (error) {
     console.log("Error in login function:", error);
@@ -60,11 +61,10 @@ export async function signUp(req, res) {
     await pool.query("INSERT INTO refresh_tokens (token) VALUES ($1)", [
       refreshToken,
     ]);
-
+    res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true})
     res.json({
       message: "User created successfully",
       accessToken: accessToken,
-      refreshToken: refreshToken,
       values: result.rows[0],
     });
   } catch (error) {

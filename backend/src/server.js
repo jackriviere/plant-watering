@@ -5,12 +5,15 @@ import express from "express";
 import cors from "cors";
 
 import loginRoutes from "./routes/loginRoutes.js";
+import credentials from "./middleware/credentials.js";
 
 const app = express();
 
 const PORT = 3000;
 
 app.use(express.json());
+
+app.use(credentials);
 
 app.use(
   cors({

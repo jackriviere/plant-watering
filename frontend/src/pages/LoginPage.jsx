@@ -1,9 +1,13 @@
 import { X } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
-import { Link } from "react-router";
-import api from "../api/axios.js"
+import { Link, useNavigate } from "react-router";
+import api from "../api/axios.js";
+import useAuth from "../hooks/useAuth.jsx";
 
 const LoginPage = () => {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
@@ -15,16 +19,37 @@ const LoginPage = () => {
   }, []);
 
   useEffect(() => {
-    setError("")
-  }, [user, pwd])
+    setError("");
+  }, [user, pwd]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/auth/login", { username: user, password: pwd})
-      console.log(response)
+      const response = await api.post(
+        "/auth/login",
+        { username: user, password: pwd },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response?.data)
+      const accessToken = response?.data?.accessToken;
+      setAuth({ user, accessToken });
+      setUser("");
+      setPwd("");
+      console.log("navigating...")
+      navigate("/");
     } catch (error) {
-
+      if (!error?.response) {
+        setError("No Server Response");
+      } else if (error.response?.status === 400) {
+        setError("Missing Username or Password");
+      } else if (error.response?.status === 401) {
+        setError("Unauthorized");
+      } else {
+        setError("Login Failed");
+      }
     }
   };
 
