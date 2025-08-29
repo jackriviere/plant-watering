@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import loginRoutes from "./routes/loginRoutes.js";
 import credentials from "./middleware/credentials.js";
@@ -10,6 +11,8 @@ import credentials from "./middleware/credentials.js";
 const app = express();
 
 const PORT = 3000;
+
+app.use(cookieParser());
 
 app.use(express.json());
 

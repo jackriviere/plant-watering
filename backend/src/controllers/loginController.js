@@ -75,9 +75,9 @@ export async function signUp(req, res) {
 
 export async function generateNewToken(req, res) {
   try {
-    const { refreshToken } = req.body;
-    if (!refreshToken)
-      return res.status(401).json({ message: "No refresh token included" });
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.status(401).json({message: "No refresh token included"})
+    const refreshToken = cookies.jwt
     const { rows } = await pool.query(
       "SELECT * FROM refresh_tokens WHERE token=$1",
       [refreshToken]

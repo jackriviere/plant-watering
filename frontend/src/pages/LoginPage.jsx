@@ -1,12 +1,15 @@
 import { X } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import api from "../api/axios.js";
 import useAuth from "../hooks/useAuth.jsx";
 
 const LoginPage = () => {
   const { setAuth } = useAuth();
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
@@ -38,15 +41,15 @@ const LoginPage = () => {
       setAuth({ user, accessToken });
       setUser("");
       setPwd("");
-      console.log("navigating...")
-      navigate("/");
+      navigate(from, {replace: true});
     } catch (error) {
+      console.log(error)
       if (!error?.response) {
         setError("No Server Response");
       } else if (error.response?.status === 400) {
-        setError("Missing Username or Password");
+        setError("Missing Username or Password, try again");
       } else if (error.response?.status === 401) {
-        setError("Unauthorized");
+        setError("Incorrect username or password, try again");
       } else {
         setError("Login Failed");
       }
