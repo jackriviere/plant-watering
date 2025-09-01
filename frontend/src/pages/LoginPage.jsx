@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { LoaderIcon, X } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import api from "../api/axios.js";
@@ -15,6 +15,8 @@ const LoginPage = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
 
+  const [loading, setLoading] = useState(false)
+
   const userRef = useRef();
 
   useEffect(() => {
@@ -27,6 +29,8 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
+    setError("")
     try {
       const response = await api.post(
         "/auth/login",
@@ -53,6 +57,8 @@ const LoginPage = () => {
       } else {
         setError("Login Failed");
       }
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -91,7 +97,7 @@ const LoginPage = () => {
               required
             />
 
-            <button className="btn btn-neutral btn-lg mt-8">Login</button>
+            <button disabled={loading} className="btn btn-neutral btn-lg mt-8">{loading ? <LoaderIcon className="animate-spin" /> : "Login"}</button>
             <p className="text-lg pl-2 pt-4">
               No account?{" "}
               <Link to="/signup" className="text-accent hover:text-accent/80">

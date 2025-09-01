@@ -26,6 +26,8 @@ const SignupPage = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
+  const [loading, setLoading] = useState(false)
+
   const userRef = useRef();
 
   useEffect(() => {
@@ -47,6 +49,8 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
+    setError("")
     if (!USER_REGEX.test(user) || !PWD_REGEX.test(pwd)) {
       setError("Invalid entry");
       return;
@@ -74,6 +78,8 @@ const SignupPage = () => {
       } else {
         setError("Registration Failed");
       }
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -142,7 +148,7 @@ const SignupPage = () => {
               <p className="text pl-10">Must match above password</p>
             </div>
 
-            <button disabled={!validName || !validPwd || !validMatch || error} className="btn btn-neutral btn-lg mt-8 disabled:bg-button-bg/60">Sign Up</button>
+            <button disabled={!validName || !validPwd || !validMatch || error || loading} className="btn btn-neutral btn-lg mt-8 disabled:bg-button-bg/60">{loading ? <LoaderIcon className="animate-spin" /> : "Sign Up"}</button>
 
             <div className="relative" hidden={!error}>
               <X className="absolute top-0.5 w-10 h-10 text-red-600" />

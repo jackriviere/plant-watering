@@ -1,25 +1,17 @@
-import {  useState } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate } from "react-router";
 
 const HomePage = () => {
+  const navigate = useNavigate();
 
-  const [response, setResponse] = useState("");
-
-  const axiosPrivate = useAxiosPrivate();
-
-  const handleClick = async () => {
-    const myResponse = await axiosPrivate.get("/auth/test")
-    setResponse(JSON.stringify(myResponse?.data))
-  }
+  const handleClick = () => {
+    navigate("/user");
+  };
 
   return (
-  <div>
-    <p>{response ? response : "No response"}</p>
-    <button className="btn" onClick={() => handleClick()}>Refresh</button>
-  </div>
-  )
-
-  ;
+    <div>
+      <button className="btn" onClick={handleClick}>Go to user</button>
+    </div>
+  );
 };
 
 export default HomePage;
