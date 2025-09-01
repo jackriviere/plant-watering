@@ -1,25 +1,20 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import useAuth from "../hooks/useAuth";
-import useRefreshToken from "../hooks/useRefreshToken"
 
 const HomePage = () => {
-  const refresh = useRefreshToken()
-  const { auth } = useAuth();
 
   const [response, setResponse] = useState("");
-  const [myToken, setMyToken] = useState(auth?.accessToken)
 
   const axiosPrivate = useAxiosPrivate();
 
   const handleClick = async () => {
-    const newToken = await refresh()
-    setMyToken(newToken)
+    const myResponse = await axiosPrivate.get("/auth/test")
+    setResponse(JSON.stringify(myResponse?.data))
   }
 
   return (
   <div>
-    <p>{myToken ? `Access token is: ${myToken}` : "No access token"}</p>
+    <p>{response ? response : "No response"}</p>
     <button className="btn" onClick={() => handleClick()}>Refresh</button>
   </div>
   )

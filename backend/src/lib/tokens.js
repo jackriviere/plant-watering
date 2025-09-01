@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
 
-const DURATION = "1m";
+const ACCESS_DURATION = "10s";
+const REFRESH_DURATION = "1d"
 
 export function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: DURATION,
+    expiresIn: ACCESS_DURATION,
   });
 }
 
 export function generateRefreshToken(user) {
-  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: REFRESH_DURATION});
 }
 
 export function generateBothTokens(user) {
