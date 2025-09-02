@@ -4,6 +4,7 @@ import {
   signUp,
   generateNewToken,
   testAuthorization,
+  logout,
 } from "../controllers/loginController.js";
 import authenticateToken from "../middleware/authenticateToken.js"
 
@@ -16,5 +17,7 @@ router.post("/signup", signUp);
 router.post("/token", generateNewToken);
 
 router.get("/test", authenticateToken, testAuthorization)
+
+router.post("/logout", logout)
 
 export default router;

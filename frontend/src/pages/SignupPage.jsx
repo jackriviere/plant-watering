@@ -1,4 +1,4 @@
-import { Info, X } from "lucide-react";
+import { Info, LoaderIcon, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";

@@ -4,7 +4,6 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import RequireAuth from "./components/requireAuth";
-import UserPage from "./pages/UserPage";
 import PersistLogin from "./components/PersistLogin";
 
 const App = () => {
@@ -19,7 +18,6 @@ const App = () => {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/user" element={<UserPage />} />
           </Route>
         </Route>
       </Routes>
